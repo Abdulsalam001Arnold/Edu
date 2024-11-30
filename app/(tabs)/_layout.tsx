@@ -1,45 +1,61 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
+import { createMaterialTopTabNavigator, MaterialTopTabNavigationOptions, MaterialTopTabNavigationEventMap } from '@react-navigation/material-top-tabs'
+import React from 'react'
+import { withLayoutContext } from 'expo-router'
+import { NavigationContainer } from '@react-navigation/native'
+import HomeScreen from './index'
+import TabTwoScreen from './explore'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import each from '../(each)/each'
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+const Tab = createMaterialTopTabNavigator();
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
 
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+
+export default function _layout() {
+  return(
+  <GestureHandlerRootView>
+ <Tab.Navigator screenOptions={{
+  swipeEnabled: true,
+  tabBarStyle: {
+    backgroundColor: '#151320'
+  },
+  tabBarBounces: true,
+
+ }}>
+  <Tab.Screen name='index' component={HomeScreen} options={{
+    tabBarBadge: (() => <Text>7</Text> ),
+    tabBarActiveTintColor: '#1DE9B6',
+    tabBarInactiveTintColor: 'gray',
+    tabBarIndicatorStyle:{
+      backgroundColor: '#1DE9B6',
+      height: 2,
+      borderRadius: 5,
+      marginTop: 2,
+      marginBottom: 3,
+    },
+    title: 'Chats',
+  }}/>
+  <Tab.Screen name='explore' component={TabTwoScreen}
+  options={{
+
+    tabBarBadge: (() => <Text>7</Text> ),
+    tabBarActiveTintColor: '#1DE9B6',
+    tabBarInactiveTintColor: 'black',
+    tabBarIndicatorStyle:{
+      backgroundColor: '#1DE9B6',
+      height: 2,
+      borderRadius: 5,
+      marginTop: 2,
+      marginBottom: 3,
+    },
+    title: 'Communities',
+  }}
+  />
+
+ </Tab.Navigator>
+  </GestureHandlerRootView>
+  )
 }
+
+const styles = StyleSheet.create({})
